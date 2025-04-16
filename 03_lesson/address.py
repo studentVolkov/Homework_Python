@@ -6,8 +6,12 @@ class Address:
     kvartira = "33"
 
     def __init__(self, index, town, street, home, kvartira):
-        self.i = index
-        self.t = town
-        self.s = street
-        self.h = home
-        self.kv = kvartira
+        self.index = index
+        self.town = town
+        self.street = street
+        self.home = home
+        self.kvartira = kvartira
+
+    def __str__(self):
+        return (f"{self.index}, {self.town}, {self.street}, {self.home}"
+                "- {self.kvartira}")
