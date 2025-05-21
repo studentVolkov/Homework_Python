@@ -12,4 +12,5 @@ driver.get('http://uitestingplayground.com/dynamicid')
 for i in range(3):
     driver.find_element(By.CSS_SELECTOR, 'button.btn-primary').click()
 
-sleep(10)
+sleep(3)
+driver.quit()
