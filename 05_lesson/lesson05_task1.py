@@ -15,5 +15,5 @@ for i in range(3):
     alert.accept()
     driver.refresh()
 
-sleep(10)
+sleep(3)
 driver.quit()
