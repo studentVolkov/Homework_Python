@@ -12,5 +12,5 @@ sleep(2)
 input_field.clear()
 input_field.send_keys('Pro')
 
-sleep(5)
+sleep(2)
 driver.quit()
