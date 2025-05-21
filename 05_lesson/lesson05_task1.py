@@ -16,3 +16,4 @@ for i in range(3):
     driver.refresh()
 
 sleep(10)
+driver.quit()
