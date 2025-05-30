@@ -6,6 +6,7 @@ import pytest
 def yogie_data():
     pass
 
+
 Base_URL = 'https://ru.yougile.com/api-v2'
 Key = "vtsfYq5LbIk8I4nz3fY2a4nKXMiZkloKmQcKHVtuGUB-OZqzkJeiTE2jIAp-N5Zv"
 
@@ -88,4 +89,3 @@ def test_list_negative_get():
                                 "Authorization": f"Bearer {Key}"
                             })
     assert response.status_code == 200
-  

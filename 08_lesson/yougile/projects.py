@@ -7,7 +7,8 @@ load_dotenv()
 
 
 def _check_status_code(status_code: int, response_status_code: int):
-    assert response_status_code == status_code, f"Expected status code {status_code}, got {response_status_code}"
+    assert response_status_code == status_code, f"Expected status code {
+        status_code}, got {response_status_code}"
 
 
 @pytest.fixture
@@ -29,7 +30,7 @@ def base_url():
 
 @pytest.fixture
 def test_project(r_session: requests.Session, base_url: str):
-    """Фикстура создает тестовый проект и 
+    """Фикстура создает тестовый проект и
     возвращает его ID, удаляя после теста"""
     # Создание проекта
     title = "TEST WITH FIXTURES"
@@ -56,7 +57,8 @@ def test_create_project(test_project):
     # Дополнительные проверки можно добавить здесь
 
 
-def test_update_project(r_session: requests.Session, base_url: str, test_project: str):
+def test_update_project(
+        r_session: requests.Session, base_url: str, test_project: str):
     """Тест проверяет обновление проекта"""
     new_title = "CHANGED TEST WITH FIXTURES"
 
@@ -68,4 +70,5 @@ def test_update_project(r_session: requests.Session, base_url: str, test_project
 
     # Проверяем что название действительно изменилось
     resp_get = r_session.get(base_url + f"/{test_project}")
-    assert resp_get.json()['title'] == new_title, "Project title was not updated"
+    assert resp_get.json()[
+        'title'] == new_title, "Project title was not updated"
