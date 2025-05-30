@@ -2,64 +2,90 @@ import requests
 import pytest
 
 
-@pytest.fixture()
-def obj_id():
-    payload = {
-        "name": "Apple MacBook Pro 16",
-        "data": {
-            "year": 2019,
-            "price": 1849.99,
-            "CPU model": "Intel Core i9",
-            "Hard disk size": "1 TB"
+@pytest.fixture
+def yogie_data():
+    pass
+
+Base_URL = 'https://ru.yougile.com/api-v2'
+Key = "vtsfYq5LbIk8I4nz3fY2a4nKXMiZkloKmQcKHVtuGUB-OZqzkJeiTE2jIAp-N5Zv"
+
+
+def test_auth():
+    creds = {
+        'login': 'sv025751@gmail.com',
+        'password': '123456Sibmail',
+        'name': 'Skypro'
         }
-    }
     response = requests.post(
-        'https://api.restful-api.dev/objects',
-        json=payload).json()
-    yield response['id']
-    requests.delete('https://api.restful-api.dev/objects/{response["id"]}')
-
-
-def test_create_object():
-    payload = {
-        "name": "Apple MacBook Pro 16",
-        "data": {
-            "year": 2019,
-            "price": 1849.99,
-            "CPU model": "Intel Core i9",
-            "Hard disk size": "1 TB"
-        }
-    }
-    response = requests.post(
-        'https://api.restful-api.dev/objects', json=payload).json()
-    assert response['name'] == payload['name']
-
-
-def test_get_object(obj_id):
-    response = requests.get(
-        f'https://api.restful-api.dev/objects/{obj_id}').json()
-    assert response['id'] == obj_id
-
-
-def test_update_object(obj_id):
-    payload = {
-        "name": "Apple MacBook Pro 20",
-        "data": {
-            "year": 2020,
-            "price": 1849.99,
-            "CPU model": "M10",
-            "Hard disk size": "1 TB"
-        }
-        }
-    response = requests.put(
-        f'https://api.restful-api.dev/objects/{obj_id}',
-        json=payload
-        ).json()
-    assert response['name'] == payload['name']
-
-
-def test_delete_object(obj_id):
-    response = requests.delete(f'https://api.restful-api.dev/objects/{obj_id}')
+        'https://ru.yougile.com/api-v2/auth/companies', json=creds)
     assert response.status_code == 200
-    response = requests.get(f'https://api.restful-api.dev/objects/{obj_id}')
-    assert response.status_code == 404
+
+
+def test_post():
+    data = {
+        "title": "ГОСУДАРСТВО",
+        "users": {}
+    }
+
+    response = requests.post(Base_URL + "/projects", json=data, headers={
+        "Authorization": f"Bearer {Key}"
+    })
+
+    assert response.status_code == 201
+
+
+def test_put():
+    data = {
+        "title": "Changed name project",
+        "deleted": False,
+        "users": {}
+    }
+    projectId = "70ef67c7-8d9f-41a0-9291-f0b851d16aef"
+    response = requests.put(Base_URL + f"/projects/{projectId}", json=data,
+                            headers={
+                                "Authorization": f"Bearer {Key}"
+                            })
+    print(response.url)
+    assert response.status_code == 200
+
+
+def test_put_negative():
+    data = {
+        "title": "Changed name project",
+        "deleted": False,
+    }
+    projectId = "70ef67c7-8d9f-41a0-9291-f0b851d16aef"
+    response = requests.put(Base_URL + f"/projects/{projectId}", json=data,
+                            headers={
+                                "Authorization": f"Bearer {Key}"
+                            })
+    print(response.url)
+    assert response.status_code == 200
+
+
+def test_list_get():
+    data = {
+        "title": "Changed name project",
+        "timestamp": 1748585643280,
+        "users": {},
+        "id": "70ef67c7-8d9f-41a0-9291-f0b851d16aef",
+        "deleted": False
+    }
+    projectId = "70ef67c7-8d9f-41a0-9291-f0b851d16aef"
+    response = requests.get(Base_URL + f"/projects/{projectId}", json=data,
+                            headers={
+                                "Authorization": f"Bearer {Key}"
+                            })
+    assert response.status_code == 200
+
+
+def test_list_negative_get():
+    data = {
+    }
+    projectId = "70ef67c7-8d9f-41a0-9291-f0b851d16aef"
+    response = requests.get(Base_URL + f"/projects/{projectId}", json=data,
+                            headers={
+                                "Authorization": f"Bearer {Key}"
+                            })
+    assert response.status_code == 200
+  
